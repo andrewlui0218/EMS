@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elderly Mobility Scale (EMS)</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+            background-color: transparent;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .question-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--accent-color);
+        }
+
+        .question-title {
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .option-label:hover {
+            background-color: #f0f8ff;
+        }
+
+        input[type="radio"] {
+            margin-right: 12px;
+            accent-color: var(--accent-color);
+            transform: scale(1.2);
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            margin-bottom: 50px;
+            gap: 15px;
+        }
+
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            cursor: pointer;
+            font-weight: 600;
+            transition: opacity 0.2s;
+            flex: 1;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .btn-submit {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-clear {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0,0,0,0.5); 
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; 
+            padding: 30px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            top: 10px;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: black;
+            text-decoration: none;
+        }
+
+        .score-display {
+            font-size: 3em;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin: 10px 0;
+        }
+
+        .score-interpretation {
+            font-size: 1.1em;
+            color: #555;
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 6px;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0} 
+            to {opacity: 1}
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Elderly Mobility Scale (EMS)</h1>
+        <p>Select the appropriate option for each mobility task.</p>
+    </header>
+
+    <form id="emsForm">
+
+        <div class="question-card">
+            <div class="question-title">1. Lying to Sitting</div>
+            <div class="options-group">
+                <label class="option-label">
+                    <input type="radio" name="q1" value="2" required>
+                    Independent
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="q1" value="1">
+                    Needs help of 1 person
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="q1" value="0">
+                    Needs help of 2+ people
+                </label>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-title">2. Sitting to Lying</div>
+            <div class="options-group">
+                <label class="option-label">
+                    <input type="radio" name="q2" value="2" required>
+                    Independent
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="q2" value="1">
+                    Needs help of 1 person
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="q2" value="0">
+                    Needs help of 2+ people
+                </label>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-title">3. Sit to Stand</div>
+            <div class="options-group">
+                <label class="option-label">
+                    <input type="radio" name="q3" value="3" required>
+                    Independent in under 3 seconds
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="q3" value="2">
+                    Independent in over 3 seconds
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="q3" value="1">
+                    Needs help of 1 person (verbal or physical)
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="q3" value="0">
+                    Needs help of 2+ people
+                </label>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-title">4. Standing</div>
+            <div class="options-group">
+                <label class="option-label">
+                    <input type="radio" name="q4" value="3" required>
+                    Stands without support & reaches within arms length
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="q4" value="2">
+                    Stands without support but needs help to reach
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="q4" value="1">
+                    Stands, but requires support
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="q4" value="0">
+                    Stands, only with physical support (1 person)
+                </label>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-title">5. Gait</div>
+            <div class="options-group">
+                <label class="option-label">
+                    <input type="radio" name="q5" value="3" required>
+                    Independent (including use of sticks)
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="q5" value="2">
+                    Independent with frame
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="q5" value="1">
+                    Mobile with walking aid but erratic/unsafe turning
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="q5" value="0">
+                    Requires physical assistance or constant supervision
+                </label>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-title">6. Timed Walk (6 meters)</div>
+            <div class="options-group">
+                <label class="option-label">
+                    <input type="radio" name="q6" value="3" required>
+                    Under 15 seconds
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="q6" value="2">
+                    16-30 seconds
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="q6" value="1">
+                    Over 30 seconds
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="q6" value="0">
+                    Unable to cover 6 meters
+                </label>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-title">7. Functional Reach</div>
+            <div class="options-group">
+                <label class="option-label">
+                    <input type="radio" name="q7" value="4" required>
+                    Over 20 cm
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="q7" value="2">
+                    10 - 20 cm
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="q7" value="0">
+                    Under 10 cm or unable
+                </label>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button type="button" class="btn-clear" onclick="clearForm()">Clear Form</button>
+            <button type="button" class="btn-submit" onclick="calculateScore()">Submit Assessment</button>
+        </div>
+
+    </form>
+</div>
+
+<div id="resultModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2>Assessment Result</h2>
+        <div class="score-display" id="totalScore">0</div>
+        <p>Total Score (Max 20)</p>
+        <div class="score-interpretation" id="scoreInterpretation"></div>
+    </div>
+</div>
+
+<script>
+    function calculateScore() {
+        const form = document.getElementById('emsForm');
+        let totalScore = 0;
+        let answeredCount = 0;
+        const totalQuestions = 7;
+
+        // Loop through questions 1 to 7
+        for (let i = 1; i <= totalQuestions; i++) {
+            const radios = document.getElementsByName('q' + i);
+            let answered = false;
+            for (const radio of radios) {
+                if (radio.checked) {
+                    totalScore += parseInt(radio.value);
+                    answered = true;
+                    break;
+                }
+            }
+            if (answered) answeredCount++;
+        }
+
+        if (answeredCount < totalQuestions) {
+            alert("Please answer all questions before submitting.");
+            return;
+        }
+
+        // Determine Interpretation
+        let interpretation = "";
+        if (totalScore >= 14) {
+            interpretation = "<strong>Independent</strong> in basic ADLs. Generally safe to go home, but may need some help.";
+        } else if (totalScore >= 10) {
+            interpretation = "<strong>Borderline</strong> in terms of safe mobility and independence. Requires some help with mobility maneuvers.";
+        } else {
+            interpretation = "<strong>Dependent</strong> in mobility maneuvers and requiring help with basic ADLs (transfers, toileting, dressing, etc.).";
+        }
+
+        // Update and Show Modal
+        document.getElementById('totalScore').textContent = totalScore;
+        document.getElementById('scoreInterpretation').innerHTML = interpretation;
+        document.getElementById('resultModal').style.display = "block";
+    }
+
+    function clearForm() {
+        if(confirm("Are you sure you want to clear the form?")) {
+            document.getElementById('emsForm').reset();
+        }
+    }
+
+    function closeModal() {
+        document.getElementById('resultModal').style.display = "none";
+    }
+
+    // Close modal if clicking outside of it
+    window.onclick = function(event) {
+        const modal = document.getElementById('resultModal');
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+</body>
+</html>
